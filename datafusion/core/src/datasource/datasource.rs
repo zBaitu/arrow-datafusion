@@ -55,6 +55,35 @@ pub enum TableType {
     Temporary,
 }
 
+/// Indicates the source of this table for metadata/catalog purposes.
+#[derive(Debug, Clone, PartialEq)]
+pub enum TableSource {
+    /// An ordinary physical table.
+    Relational {
+        ///
+        server: Option<String>,
+        ///
+        database: Option<String>,
+        ///
+        schema: Option<String>,
+        ///
+        table: String
+    },
+    /// A file on some file system
+    File {
+        ///
+        protocol: String,
+        ///
+        path: String,
+        ///
+        format: String,
+    },
+    /// A transient table.
+    InMemory,
+    /// An unspecified source, used as the default
+    Unspecified,
+}
+
 /// Source table
 #[async_trait]
 pub trait TableProvider: Sync + Send {
@@ -68,6 +97,11 @@ pub trait TableProvider: Sync + Send {
     /// Get the type of this table for metadata/catalog purposes.
     fn table_type(&self) -> TableType {
         TableType::Base
+    }
+
+    /// The source of this table
+    fn table_source(&self) -> TableSource {
+        TableSource::Unspecified
     }
 
     /// Create an ExecutionPlan that will scan the table.
