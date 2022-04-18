@@ -553,6 +553,7 @@ use crate::execution::context::TaskContext;
 pub use datafusion_physical_expr::expressions;
 
 pub mod aggregate_rule;
+pub mod clickhouse;
 pub mod file_format;
 pub mod filter;
 pub mod functions;

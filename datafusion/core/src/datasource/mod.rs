@@ -19,6 +19,7 @@
 
 #![allow(clippy::module_inception)]
 pub mod datasource;
+pub mod clickhouse;
 pub mod empty;
 pub mod file_format;
 pub mod listing;
